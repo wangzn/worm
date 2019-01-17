@@ -95,3 +95,13 @@ func (m *ORM) Migration(name string) error {
 	}
 	return nil
 }
+
+// UseDB 使用指定名称的库，注意可能是个空
+func (m *ORM) UseDB(name string) *gorm.DB {
+	m.Lock()
+	defer m.Unlock()
+	if db, ok := m.conn[name]; ok {
+		return db.client
+	}
+	return nil
+}
